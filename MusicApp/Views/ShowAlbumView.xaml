@@ -1,0 +1,114 @@
+﻿<Window x:Class="MusicApp.Views.ShowAlbumView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MusicApp.Views"
+        mc:Ignorable="d"
+        Title="ShowAlbumView" Height="700" Width="1250" MinWidth="600"
+        WindowStartupLocation="CenterScreen">
+    <Window.Background>
+        <ImageBrush ImageSource="../Resources/MainBackground.jpg"/>
+    </Window.Background>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.5*"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0">
+            <StackPanel Orientation="Vertical">
+                <StackPanel.Background>
+                    <SolidColorBrush Color="#6495ED" Opacity="0.9"/>
+                </StackPanel.Background>
+                
+                <Image Grid.Column="0" Height="200" Source="{Binding Album.Photo}"/>
+                <Label Content="Name:" Foreground="White" FontSize="30" Background="#0096FF" HorizontalAlignment="Left"/>
+                <TextBlock Text="{Binding Album.Name}" Foreground="White" FontSize="30"/>
+                <Label Content="Year:" Foreground="White" FontSize="30" Background="#0096FF" HorizontalAlignment="Left"/>
+                <TextBlock Text="{Binding Album.Year}" Foreground="White" FontSize="20"/>
+                <Label Content="Genre:" Foreground="White" FontSize="30" Background="#0096FF" HorizontalAlignment="Left"/>
+                <TextBlock Text="{Binding Album.Genre}" Foreground="White" FontSize="20"/>
+                <Label Content="Price:" Foreground="White" FontSize="30" Background="#0096FF" HorizontalAlignment="Left"/>
+                <TextBlock Text="{Binding Album.Price}" Foreground="White" FontSize="20"/>
+                <Label Content="Discount:" Foreground="White" FontSize="30" Background="#0096FF" HorizontalAlignment="Left"/>
+                <TextBlock Text="{Binding Album.Discount}" Foreground="White" FontSize="20"/>
+                <Button Content="Update base properties" Background="Purple" Foreground="White" Command="{Binding UpdateBasePropertiesCommand}" CommandParameter="{Binding}" FontSize="30" Margin="20"/>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Image Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" Source="{Binding Artist.Photo}"/>
+            
+            <StackPanel Grid.Row="0" Grid.Column="0">
+                <StackPanel Grid.Column="1" Orientation="Vertical">
+                    <Label Content="Artist name:" Foreground="White" FontSize="30" Background="#0096FF" HorizontalAlignment="Left"/>
+                    <TextBlock Text="{Binding Artist.Name}" Foreground="White" FontSize="30"/>
+                    <Label Content="Artist country:" Foreground="White" FontSize="30" Background="#0096FF" HorizontalAlignment="Left"/>
+                    <TextBlock Text="{Binding Artist.Country}" Foreground="White" FontSize="20"/>
+                    <Label Content="Artist year:" Foreground="White" FontSize="30" Background="#0096FF" HorizontalAlignment="Left"/>
+                    <TextBlock Text="{Binding Artist.Year}" Foreground="White" FontSize="20"/>
+                </StackPanel>
+
+                <Button Background="Purple" Foreground="White" Command="{Binding UpdateArtistCommand}" CommandParameter="{Binding}" Content="Update artist" FontSize="30" Margin="10"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="1" Grid.ColumnSpan="2">
+                <DockPanel>
+                    <Label DockPanel.Dock="Left" Content="Tracks:" Background="#0096FF" HorizontalAlignment="Left" Foreground="White" FontSize="30"/>
+                    <Button x:Name="AddButton" DockPanel.Dock="Right" Content="Add track" HorizontalAlignment="Right" Background="Purple" Foreground="White" FontSize="30" Command="{Binding AddCommand}" CommandParameter="{Binding ElementName=AddButton, Path=DataContext}"/>
+                </DockPanel>
+
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <ItemsControl ItemsSource="{Binding Tracks}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Vertical"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button x:Name="OpenClipButton" Margin="3" Command="{Binding DataContext.OpenCommand, RelativeSource={RelativeSource AncestorType={x:Type ScrollViewer}}}" CommandParameter="{Binding ElementName=OpenClipButton, Path=DataContext}">
+                                    <Button.Template>
+                                        <ControlTemplate>
+                                            <Border CornerRadius="5" Background="Purple">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="0.1*"/>
+                                                        <ColumnDefinition Width="5*"/>
+                                                        <ColumnDefinition/>
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <TextBlock Grid.Column="0" Foreground="White" FontSize="20" Text="{Binding Number}"/>
+
+                                                    <TextBlock Grid.Column="1" Foreground="White" FontSize="20" Text="{Binding Name}"/>
+
+                                                    <Button x:Name="RemoveButton" Grid.Column="3" Width="20" BorderThickness="0" HorizontalAlignment="Right" Command="{Binding DataContext.RemoveCommand, RelativeSource={RelativeSource AncestorType={x:Type ScrollViewer}}}" CommandParameter="{Binding ElementName=RemoveButton, Path=DataContext}">
+                                                        <Button.Background>
+                                                            <ImageBrush ImageSource="../Resources/CrossRemove.png"/>
+                                                        </Button.Background>
+                                                    </Button>
+                                                </Grid>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>
